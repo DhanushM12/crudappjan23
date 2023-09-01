@@ -2,11 +2,26 @@ POST http://localhost:8080/student/create
 Content-Type: application/json
 
 {
-    "name": "xyz",
-    "college": "Coding"
+    "name": "***",
+    "college": "***"
 }
 
 
 ###
 
 GET http://localhost:8080/student/list
+
+###
+GET http://localhost:8080/student/64ee228ace50170473b89e67
+
+###
+PATCH http://localhost:8080/student/64f20d2ae7dbea226634e1a1
+Content-Type: application/json
+
+{
+    "name": "***",
+    "college": "***",
+}
+
+###
+DELETE http://localhost:8080/student/64ee228ace50170473b89e67

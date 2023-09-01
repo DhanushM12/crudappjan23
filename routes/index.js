@@ -27,4 +27,49 @@ router.get('/list', async (req, res) => {
     }
 })
 
+router.get('/:id', getStudentData, (req, res) => {
+    res.status(200).json(res.student)
+})
+
+router.patch('/:id', getStudentData, async (req, res) => {
+    if(req.body.name != undefined){
+        res.student.name = req.body.name;
+    }
+    if(req.body.college != undefined){
+        res.student.college = req.body.college;
+    }
+    try {
+        const updatedStudent = await res.student.save();
+        res.status(200).json({updatedStudent})
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+})
+
+router.delete('/:id', getStudentData, async (req, res) => {
+    let name = res.student.name;
+    try {
+        await res.student.deleteOne();
+        res.json({message: `${name} student has been deleted`})
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+})
+
+async function getStudentData(req, res, next){
+    let student;
+    try {
+        student = await Student.findById(req.params.id)
+        if(student == null){
+            return res.status(404).json({
+                message: "Cannot find the student"
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+    res.student = student;
+    next()
+}
+
 module.exports = router;
